@@ -1,0 +1,8 @@
+# Node default folders
+node_modules/
+
+# Build files folder
+dist/
+
+# env secrets
+.env
