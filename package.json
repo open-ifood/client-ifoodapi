@@ -8,8 +8,9 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "ts-node-dev --respawn ./src/server.ts",
-    "start": "npx tsc"
+    "build": "npx tsc",
+    "start": "npm run build && node ./dist/server.js",
+    "dev": "ts-node-dev --respawn ./src/server.ts"
   },
   "repository": {
     "type": "git",
