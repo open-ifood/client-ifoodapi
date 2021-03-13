@@ -1,4 +1,4 @@
-import { Request } from "express";
+import { Request } from 'express';
 
 export type Validator = {
   valid?: boolean;
@@ -9,13 +9,13 @@ export type Validator = {
 export default (req: Request): Validator => {
   let valid: boolean = true;
   let code: number = 200;
-  let message: string = "";
+  let message: string = '';
 
   const { email } = req.body;
 
   if (!email) {
     valid = false;
-    message = "O campo e-mail é obrigatório";
+    message = 'O campo e-mail é obrigatório';
     code = 400;
   }
 
