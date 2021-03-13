@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
 const {
   IFOODAPI_DATABASE_USER: USER,
@@ -15,4 +15,4 @@ mongoose
     }
   )
   .then(() => console.log(`Database connected with success`))
-  .catch((e) => console.error(e, "Database not connected..."));
+  .catch(e => console.error(e, 'Database not connected...'));
