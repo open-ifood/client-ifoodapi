@@ -1,0 +1,5 @@
+# some directories and files ignoreds by prettier formatter
+
+node_modules/
+dist/
+docs/
