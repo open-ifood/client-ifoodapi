@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import log from './log-config';
 
 const {
   IFOODAPI_DATABASE_USER: USER,
@@ -6,6 +7,7 @@ const {
   IFOODAPI_DATABASE_DATABASE: DATABASE,
   IFOODAPI_DATABASE_CLUSTER: CLUSTER,
 } = process.env;
+
 
 const databaseEnvs = [USER, PASS, DATABASE, CLUSTER];
 
@@ -25,7 +27,7 @@ const databaseEnvs = [USER, PASS, DATABASE, CLUSTER];
           useNewUrlParser: true,
         }
       )
-      .then(() => console.log(`Database connected with success`))
-      .catch(e => console.error(e, 'Database not connected...'));
+      .then(() => log.info(`Database connected with success`))
+      .catch(e => log.error(e, 'Database not connected...'));
   }
 })();
