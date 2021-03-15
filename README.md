@@ -30,6 +30,7 @@ Para a construção concreta do projeto, mantendo padrões de desenvolvimento en
 
 - [Typescript (primary language)](https://www.typescriptlang.org/)
 - [Node.JS (javascript runtime)](https://nodejs.org/en/)
+- [Pino (json logger)](https://www.npmjs.com/package/pino)
 - [Husky (hooks manager)](https://typicode.github.io/husky/#/)
 - [Prettier (code formatter)](https://prettier.io/)
 - [DotEnv (environment variables manager)](https://www.npmjs.com/package/dotenv)
