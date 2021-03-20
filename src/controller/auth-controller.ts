@@ -1,10 +1,11 @@
-import { request, Request, Response } from 'express';
+import { Request, Response } from 'express';
 import {
   failResponse,
   successResponse,
 } from '../middleware/handle-status-reponse';
 import firstAuthValidator from '../validator/first-auth-validator';
 import { MarketplaceAPI } from '../service/ifoodapi';
+import { Session } from '../model/session';
 
 export default async (req: Request, res: Response) => {
   const { valid, message, code, requestBody } = firstAuthValidator(req);
@@ -15,11 +16,13 @@ export default async (req: Request, res: Response) => {
       code,
     });
 
+  const { email } = requestBody;
+
   const {
     success,
     message: ifoodResponseMessage,
     key,
-  } = await MarketplaceAPI.sendTokenEmail({ email: requestBody.email });
+  } = await MarketplaceAPI.sendTokenEmail({ email });
 
   if (!success || !key)
     return failResponse(res, {
@@ -28,12 +31,18 @@ export default async (req: Request, res: Response) => {
         'Ocorre um problema durante a autenticação no IFood, valide seus dados',
     });
 
-  return successResponse(
-    res,
-    {
-      message:
-        'Sua sessão foi iniciada no iFood com sucesso, por favor continue com o próximo passo da autenticação.',
-    },
-    { key }
-  );
+  const session = new Session();
+  session.email = email;
+  session.key = key;
+
+  if (await Session.exists({ email: { $eq: email } })) {
+    session.updateOne();
+  } else {
+    session.save();
+  }
+
+  return successResponse(res, {
+    message:
+      'Sua sessão foi iniciada no iFood com sucesso, por favor continue com o próximo passo da autenticação.',
+  });
 };

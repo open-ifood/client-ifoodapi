@@ -28,6 +28,8 @@ export default (req: Request): Validator => {
     valid,
     message,
     code,
-    requestBody: req.body,
+    requestBody: {
+      email: email.trim(),
+    },
   };
 };
