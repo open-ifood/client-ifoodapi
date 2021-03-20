@@ -1,9 +1,14 @@
 import { Request } from 'express';
 
+export interface RequestBodyFirstAuth {
+  email: string;
+}
+
 export type Validator = {
   valid?: boolean;
   message: string;
   code?: number;
+  requestBody?: RequestBodyFirstAuth;
 };
 
 export default (req: Request): Validator => {
@@ -23,5 +28,6 @@ export default (req: Request): Validator => {
     valid,
     message,
     code,
+    requestBody: req.body,
   };
 };
