@@ -52,11 +52,11 @@ Caso o passo anterior tenha retornado o `status_code` 201, já está no momento 
 
 ```json
 {
-  "endpoint": "/confirm-token",
+  "endpoint": "/confirm-auth",
   "method": "PATCH",
   "data": {
     "email": "example@email.com",
-    "token": "00011"
+    "auth_code": "00011"
   }
 }
 ```

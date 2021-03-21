@@ -1,2 +1,2 @@
-import './database-config';
 import './dotenv-config';
+import './database-config';
