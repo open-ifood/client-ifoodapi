@@ -1,6 +1,15 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
+import {
+  getRestaurantMenuRequest,
+  getRestaurantMenuResponse,
+} from './ifoodapi.interface';
 
-const { IFOODAPI_MARKETPLACE_API: MARKETPLACE_API_URL } = process.env;
+const {
+  IFOODAPI_MARKETPLACE_API: MARKETPLACE_API_URL,
+  IFOODAPI_IFOODWS_API: WS_API_URL,
+  IFOODAPI_SECRET_KEY: SECRET_KEY,
+  IFOODAPI_ACCESS_KEY: ACCESS_KEY,
+} = process.env;
 
 export interface DefaultResponse {
   success: boolean;
@@ -46,7 +55,7 @@ interface RefreshTokenResponse extends DefaultResponse {
 }
 
 export class MarketplaceAPI {
-  static config: AxiosRequestConfig = {
+  private static config: AxiosRequestConfig = {
     baseURL: MARKETPLACE_API_URL,
     headers: {
       'content-type': 'application/json;charset=UTF-8',
@@ -54,7 +63,31 @@ export class MarketplaceAPI {
     validateStatus: () => true,
   };
 
-  static api = axios.create(MarketplaceAPI.config);
+  private static api = axios.create(MarketplaceAPI.config);
+
+  private static handleResponse(statusCode: number, data?: any) {
+    const success = statusCode >= 200 && statusCode <= 299;
+    let message;
+
+    switch (data?.code) {
+      case 'OTP-2001':
+        message = 'Codigo de autenticação expirado ou inexistente';
+        break;
+      case 'OTP-2002':
+        message = 'Código de autenticação inválido.';
+        break;
+      case 'IDT-2004':
+        message = 'Usuario nao autenticado';
+        break;
+    }
+
+    return {
+      success,
+      message: success
+        ? 'Operação realizada com sucesso'
+        : message || 'Ocorreu um problema',
+    };
+  }
 
   static async sendTokenEmail({
     email,
@@ -69,7 +102,7 @@ export class MarketplaceAPI {
     );
 
     return {
-      ...handleResponse(status),
+      ...this.handleResponse(status),
       key: data.key,
     };
   }
@@ -88,7 +121,7 @@ export class MarketplaceAPI {
     );
 
     return {
-      ...handleResponse(status, data),
+      ...this.handleResponse(status, data),
       access_token: data.access_token,
     };
   }
@@ -110,7 +143,7 @@ export class MarketplaceAPI {
     const { access_token, account_id, authenticated, refresh_token } = data;
 
     return {
-      ...handleResponse(status, data),
+      ...this.handleResponse(status, data),
       access_token,
       account_id,
       authenticated,
@@ -126,33 +159,62 @@ export class MarketplaceAPI {
     });
 
     return {
-      ...handleResponse(status, data),
+      ...this.handleResponse(status, data),
       access_token: data.access_token,
       refresh_token: data.refresh_token,
     };
   }
 }
 
-const handleResponse = (statusCode: number, data?: any) => {
-  const success = statusCode >= 200 && statusCode <= 299;
-  let message;
+export class WsAPI {
+  private static config: AxiosRequestConfig = {
+    baseURL: WS_API_URL,
+  };
 
-  switch (data?.code) {
-    case 'OTP-2001':
-      message = 'Codigo de autenticação expirado ou inexistente';
-      break;
-    case 'OTP-2002':
-      message = 'Código de autenticação inválido.';
-      break;
-    case 'IDT-2004':
-      message = 'Usuario nao autenticado';
-      break;
+  private static api = axios.create(WsAPI.config);
+
+  static async getRestaurantMenu({
+    access_token,
+    restaurant_id,
+  }: getRestaurantMenuRequest): Promise<getRestaurantMenuResponse> {
+    const { data, status } = await this.api.get(
+      `/ifood-ws-v3/v1/merchants/${restaurant_id}/catalog`,
+      {
+        headers: {
+          authorization: access_token,
+          secret_key: SECRET_KEY,
+          access_key: ACCESS_KEY,
+        },
+      }
+    );
+
+    return {
+      ...this.handleResponse(status, data),
+      menu: data.data?.menu,
+    };
   }
 
-  return {
-    success,
-    message: success
-      ? 'Operação realizada com sucesso'
-      : message || 'Ocorreu um problema',
-  };
-};
+  private static handleResponse(statusCode: number, data?: any) {
+    let message;
+    const success =
+      statusCode >= 200 && statusCode <= 299 && data?.code == '00';
+
+    switch (data?.code) {
+      case '102':
+      case '103':
+        message = 'Acesso negado, por favor verifique sua autorização';
+        break;
+      case '100':
+        message =
+          'Restaurante não encontrado, valide o restaurante passado como argumento.';
+        break;
+    }
+
+    return {
+      success,
+      message: success
+        ? 'Operação realizada com sucesso'
+        : message || 'Ocorreu um problema',
+    };
+  }
+}
