@@ -1,5 +1,5 @@
 import { Response } from 'express';
-import { Validator } from '../validator/first-auth-validator';
+import { Validator } from '../validator/authentication/first-auth-validator';
 
 export const successResponse = (
   res: Response,

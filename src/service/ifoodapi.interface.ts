@@ -4,10 +4,10 @@ export interface DefaultAuthRequest {
   access_token: string;
 }
 
-export interface getRestaurantMenuRequest extends DefaultAuthRequest {
-  restaurant_id: string;
+export interface getMerchantMenuRequest extends DefaultAuthRequest {
+  merchant_id: string;
 }
 
-export interface getRestaurantMenuResponse extends DefaultResponse {
+export interface getMerchantMenuResponse extends DefaultResponse {
   menu?: Array<any>;
 }

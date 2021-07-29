@@ -1,16 +1,16 @@
 # Rotas privadas
 Essas são as rotas que poderão ser acessadas após a [Autenticação](./authentication.md).
 
-## Obter menu de um restaurante
-Esse endpoint responderá com as categorias, produtos, opções disponiveis para um cliente fazer compra em determinado restaurante.
+## Obter menu de um comerciante
+Esse endpoint responderá com as categorias, produtos, opções disponiveis para um cliente fazer compra em determinado comerciante.
 
-Exemplo: `ID_RESTAURANTE: 95c57181-290d-4bd0-a88f-e4fedaeec045`
+Exemplo: `ID_COMERCIANTE: 95c57181-290d-4bd0-a88f-e4fedaeec045`
 
 ### Requisição
 
 ```json
 {
-  "endpoint": "/restaurant/<ID_RESTAURANTE>/menu",
+  "endpoint": "/merchant/<ID_COMERCIANTE>/menu",
   "method": "GET",
   "header": {
     "authorization": "<your_token_authentication>"
@@ -25,7 +25,7 @@ Exemplo: `ID_RESTAURANTE: 95c57181-290d-4bd0-a88f-e4fedaeec045`
   "status_code": 200,
   "body": {
     "status": "success",
-    "message": "Menu do restaurante obtido com sucesso",
+    "message": "Menu do comerciante obtido com sucesso",
     "data": {
       "menu": [
         {
@@ -151,7 +151,7 @@ Exemplo: `ID_RESTAURANTE: 95c57181-290d-4bd0-a88f-e4fedaeec045`
   "status_code": 500,
   "body": {
     "status": "fail",
-    "message": "Restaurante não encontrado, valide o restaurante passado como argumento."
+    "message": "Comerciante não encontrado, valide o comerciante fornecido como argumento."
   }
 }
 ```

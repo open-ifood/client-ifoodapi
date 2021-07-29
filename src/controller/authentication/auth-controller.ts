@@ -2,10 +2,10 @@ import { Request, Response } from 'express';
 import {
   failResponse,
   successResponse,
-} from '../middleware/handle-status-reponse';
-import firstAuthValidator from '../validator/first-auth-validator';
-import { MarketplaceAPI } from '../service/ifoodapi';
-import { Session } from '../model/session';
+} from '../../middleware/handle-status-reponse';
+import { MarketplaceAPI } from '../../service/ifoodapi';
+import { Session } from '../../model/session';
+import { firstAuthValidator } from '../../validator';
 
 export default async (req: Request, res: Response) => {
   const { valid, message, code, requestBody } = firstAuthValidator(req);

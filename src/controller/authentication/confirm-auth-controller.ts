@@ -1,12 +1,11 @@
-import axios from 'axios';
 import { Request, Response } from 'express';
 import {
   failResponse,
   successResponse,
-} from '../middleware/handle-status-reponse';
-import { Session } from '../model/session';
-import { MarketplaceAPI } from '../service/ifoodapi';
-import confirmAuthValidator from '../validator/confirm-auth-validator';
+} from '../../middleware/handle-status-reponse';
+import { Session } from '../../model/session';
+import { MarketplaceAPI } from '../../service/ifoodapi';
+import confirmAuthValidator from '../../validator/authentication/confirm-auth-validator';
 
 export default async (req: Request, res: Response) => {
   const validator = confirmAuthValidator(req);

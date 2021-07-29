@@ -1,8 +1,8 @@
-import { AuthRequest } from '../middleware/auth-middleware';
+import { AuthRequest } from '../../middleware/auth-middleware';
 
 export interface RequestBody {
   access_token: string;
-  restaurant_id: string;
+  merchant_id: string;
 }
 
 export type Validator = {
@@ -18,7 +18,7 @@ export default (req: AuthRequest): Validator => {
 
   if (!id)
     errorMessage =
-      'O campo restaurant_id é requerido no momento da busca pelo menu ';
+      'O campo merchant_id é requerido no momento da busca pelo menu ';
 
   const valid = !errorMessage;
 
@@ -27,7 +27,7 @@ export default (req: AuthRequest): Validator => {
     message: !valid ? errorMessage : '',
     requestBody: {
       access_token: req.session?.access_token || '',
-      restaurant_id: id,
+      merchant_id: id,
     },
   };
 };

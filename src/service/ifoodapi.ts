@@ -1,7 +1,7 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import {
-  getRestaurantMenuRequest,
-  getRestaurantMenuResponse,
+  getMerchantMenuRequest,
+  getMerchantMenuResponse,
 } from './ifoodapi.interface';
 
 const {
@@ -173,12 +173,12 @@ export class WsAPI {
 
   private static api = axios.create(WsAPI.config);
 
-  static async getRestaurantMenu({
+  static async getMerchantMenu({
     access_token,
-    restaurant_id,
-  }: getRestaurantMenuRequest): Promise<getRestaurantMenuResponse> {
+    merchant_id,
+  }: getMerchantMenuRequest): Promise<getMerchantMenuResponse> {
     const { data, status } = await this.api.get(
-      `/ifood-ws-v3/v1/merchants/${restaurant_id}/catalog`,
+      `/ifood-ws-v3/v1/merchants/${merchant_id}/catalog`,
       {
         headers: {
           authorization: access_token,
@@ -206,7 +206,7 @@ export class WsAPI {
         break;
       case '100':
         message =
-          'Restaurante não encontrado, valide o restaurante passado como argumento.';
+          'Comerciante não encontrado, valide o comerciante fornecido como argumento.';
         break;
     }
 
