@@ -3,7 +3,7 @@ import {
   failResponse,
   successResponse,
 } from '../../middleware/handle-status-reponse';
-import { MarketplaceAPI } from '../../service/ifoodapi';
+import { MarketplaceAPI } from '../../service';
 import { Session } from '../../model/session';
 import { firstAuthValidator } from '../../validator';
 

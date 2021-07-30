@@ -1,3 +1,4 @@
+import Account from '../types/account';
 import { DefaultResponse } from './ifoodapi';
 
 export interface DefaultAuthRequest {
@@ -10,4 +11,9 @@ export interface getMerchantMenuRequest extends DefaultAuthRequest {
 
 export interface getMerchantMenuResponse extends DefaultResponse {
   menu?: Array<any>;
+}
+
+export interface getCustomerInformationResponse extends DefaultResponse {
+  account: Account;
+  tags: Array<any>;
 }

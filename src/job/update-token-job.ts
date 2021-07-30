@@ -1,5 +1,5 @@
 import { Session, SessionModel } from '../model/session';
-import { MarketplaceAPI } from '../service/ifoodapi';
+import { MarketplaceAPI } from '../service';
 import log from '../config/log-config';
 
 export default async function updateTokenJob() {

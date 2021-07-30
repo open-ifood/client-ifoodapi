@@ -1,3 +1,7 @@
+import {
+  DefaultAuthRequest,
+  getCustomerInformationResponse,
+} from './ifoodapi.interface';
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 
 const { IFOODAPI_MARKETPLACE_API: MARKETPLACE_API_URL } = process.env;
@@ -45,7 +49,7 @@ interface RefreshTokenResponse extends DefaultResponse {
   refresh_token: string;
 }
 
-export class MarketplaceAPI {
+export default class MarketplaceAPI {
   private static config: AxiosRequestConfig = {
     baseURL: MARKETPLACE_API_URL,
     headers: {
@@ -55,6 +59,9 @@ export class MarketplaceAPI {
   };
 
   private static api = axios.create(MarketplaceAPI.config);
+
+  private static mountAuthorization = (access_token: string) =>
+    `Bearer ${access_token}`;
 
   private static handleResponse(statusCode: number, data?: any) {
     const success = statusCode >= 200 && statusCode <= 299;
@@ -77,6 +84,24 @@ export class MarketplaceAPI {
       message: success
         ? 'Operação realizada com sucesso'
         : message || 'Ocorreu um problema',
+    };
+  }
+
+  static async getCustomerInformation({
+    access_token,
+  }: DefaultAuthRequest): Promise<getCustomerInformationResponse> {
+    const { data, status } = await this.api.get('/v1/customers/me', {
+      headers: {
+        authorization: this.mountAuthorization(access_token),
+      },
+    });
+
+    const { account, tags } = data;
+
+    return {
+      ...this.handleResponse(status),
+      account,
+      tags,
     };
   }
 

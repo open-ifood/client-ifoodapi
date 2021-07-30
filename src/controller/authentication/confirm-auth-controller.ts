@@ -4,7 +4,7 @@ import {
   successResponse,
 } from '../../middleware/handle-status-reponse';
 import { Session } from '../../model/session';
-import { MarketplaceAPI } from '../../service/ifoodapi';
+import { MarketplaceAPI } from '../../service';
 import confirmAuthValidator from '../../validator/authentication/confirm-auth-validator';
 
 export default async (req: Request, res: Response) => {

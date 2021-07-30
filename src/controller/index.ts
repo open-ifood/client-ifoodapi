@@ -3,3 +3,4 @@ export { default as confirmAuthController } from './authentication/confirm-auth-
 export { default as healthController } from './health-controller';
 export { default as notFoundController } from './not-found-controller';
 export { default as restaurantMenuController } from './merchant/menu-controller';
+export { default as aboutMeController } from './account/about-me-controller';
