@@ -17,14 +17,15 @@ export default async function updateTokenJob() {
     });
 
     if (success && new_refresh_token && access_token) {
-      session.updateOne({
+      await session.updateOne({
         access_token,
         refresh_token: new_refresh_token,
       });
+
       log.info(
         `[JOB] token refreshed successfully ${JSON.stringify({
           message: 'token refreshed',
-          session: session.key,
+          session_token: session.token,
           access_token,
           new_refresh_token,
         })}`

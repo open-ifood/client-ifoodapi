@@ -4,7 +4,10 @@ import {
 } from './ifoodapi.interface';
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 
-const { IFOODAPI_MARKETPLACE_API: MARKETPLACE_API_URL } = process.env;
+const {
+  IFOODAPI_MARKETPLACE_API: MARKETPLACE_API_URL,
+  MARKETPLACE_APPLICATION_KEY,
+} = process.env;
 
 export interface DefaultResponse {
   success: boolean;
@@ -49,6 +52,113 @@ interface RefreshTokenResponse extends DefaultResponse {
   refresh_token: string;
 }
 
+interface GeocodeAddressRequest {
+  /** Address written in one line, with all in that. */
+  address_line: string;
+}
+
+interface GeocodeRule {
+  key:
+    | 'city'
+    | 'state'
+    | 'country'
+    | 'streetName'
+    | 'streetNumber'
+    | 'neighborhood'
+    | 'coordinates'
+    | 'postalCode'
+    | 'complement'
+    | 'reference'
+    | string;
+  localizedLabel: string;
+  required: boolean;
+}
+
+interface Coordinate {
+  latitude: number;
+  longitude: number;
+}
+
+interface GeocodeInput {
+  query: string;
+}
+
+type Country = 'BR' | string;
+type State = 'SP' | string;
+
+interface GeocodeAddress {
+  city: string;
+  state: State;
+  country: Country;
+  streetName: string;
+  streetNumber?: string;
+  neighborhood: string;
+  coordinates: Coordinate;
+  postalCode: string;
+}
+
+type Provider = 'GOOGLE' | string;
+
+interface GeocodeAddressResponse {
+  /** Geocoded addresses. */
+  addresses?: Array<GeocodeAddress>;
+
+  /** Applied rules for a good geocoded address. */
+  rules?: Array<GeocodeRule>;
+
+  /** Service provider used in geocode process */
+  provider?: Provider;
+
+  /** Possible error code. */
+  code?: string;
+
+  /** Description case some occurred errors.  */
+  message?: string;
+  localizedMessage?: string;
+  details?: Array<string>;
+}
+
+interface Address {
+  /** Hash unique identification. */
+  id?: string;
+
+  /** Incremental unique identification. */
+  externalId?: number;
+
+  alias?: any;
+  establishment?: any;
+  favorite?: boolean;
+  locationId?: any;
+
+  coordinates: Coordinate;
+  postalCode: string;
+  country: Country;
+  state: State;
+  city: string;
+  neighborhood: string;
+  streetName: string;
+  streetNumber?: string;
+  complement?: any;
+  reference?: any;
+
+  /** Service provider that geocode the address. */
+  provider: Provider;
+
+  /** Date-string */
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+interface GetAddressesResponse extends DefaultResponse {
+  addresses: Array<Address>;
+}
+
+interface AddAddressRequest extends DefaultAuthRequest {
+  address: Address;
+}
+
+interface AddAddressResponse extends DefaultResponse, Address {}
+
 export default class MarketplaceAPI {
   private static config: AxiosRequestConfig = {
     baseURL: MARKETPLACE_API_URL,
@@ -58,13 +168,26 @@ export default class MarketplaceAPI {
     validateStatus: () => true,
   };
 
+  private static readonly MSG_TOKEN_EXPIRED = 'token expired';
+  private static readonly MSG_NOT_FOUND_JWT_TOKEN = 'no jwt token';
+
+  private static readonly FAILURE_MESSAGES = [
+    MarketplaceAPI.MSG_NOT_FOUND_JWT_TOKEN,
+    MarketplaceAPI.MSG_TOKEN_EXPIRED,
+  ];
+
   private static api = axios.create(MarketplaceAPI.config);
 
   private static mountAuthorization = (access_token: string) =>
     `Bearer ${access_token}`;
 
   private static handleResponse(statusCode: number, data?: any) {
-    const success = statusCode >= 200 && statusCode <= 299;
+    const success =
+      statusCode >= 200 &&
+      statusCode <= 299 &&
+      !MarketplaceAPI.FAILURE_MESSAGES.some(
+        fail_message => fail_message === data?.message
+      );
     let message;
 
     switch (data?.code) {
@@ -76,7 +199,13 @@ export default class MarketplaceAPI {
         break;
       case 'IDT-2004':
         message = 'Usuario nao autenticado';
+      case 'IFSL-2004':
+        message = 'Acesso não permitido';
         break;
+    }
+
+    if (data?.message === this.MSG_TOKEN_EXPIRED) {
+      message = this.MSG_TOKEN_EXPIRED;
     }
 
     return {
@@ -99,7 +228,7 @@ export default class MarketplaceAPI {
     const { account, tags } = data;
 
     return {
-      ...this.handleResponse(status),
+      ...this.handleResponse(status, data),
       account,
       tags,
     };
@@ -178,6 +307,67 @@ export default class MarketplaceAPI {
       ...this.handleResponse(status, data),
       access_token: data.access_token,
       refresh_token: data.refresh_token,
+    };
+  }
+
+  static async addAddress({
+    access_token,
+    address,
+  }: AddAddressRequest): Promise<AddAddressResponse> {
+    const { status, data } = await this.api.post(
+      '/v1/customers/me/addresses',
+      {
+        ...address,
+      },
+      {
+        headers: {
+          authorization: `Bearer ${access_token}`,
+        },
+      }
+    );
+
+    console.log(data);
+
+    return {
+      ...this.handleResponse(status, data),
+      ...data,
+    };
+  }
+
+  static async getAddresses({
+    access_token,
+  }: DefaultAuthRequest): Promise<GetAddressesResponse> {
+    const { status, data } = await this.api.get('/v1/customers/me/addresses', {
+      headers: {
+        authorization: `Bearer ${access_token}`,
+      },
+    });
+
+    return {
+      ...this.handleResponse(status, data),
+      addresses: data,
+    };
+  }
+
+  static async geocodeAddress({
+    address_line,
+  }: GeocodeAddressRequest): Promise<GeocodeAddressResponse> {
+    const { status, data } = await this.api.get('/v1/addresses:geocode', {
+      params: this.queryAddressLine(address_line),
+      headers: {
+        'x-application-key': MARKETPLACE_APPLICATION_KEY,
+      },
+    });
+
+    return {
+      ...this.handleResponse(status, data),
+      ...data,
+    };
+  }
+
+  private static queryAddressLine(address_line: string): GeocodeInput {
+    return {
+      query: address_line,
     };
   }
 }

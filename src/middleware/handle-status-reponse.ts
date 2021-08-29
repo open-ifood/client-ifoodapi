@@ -13,6 +13,13 @@ export const successResponse = (
   });
 };
 
+export const successSimpleResponse = (res: Response, data?: object) => {
+  return res.status(200).json({
+    status: 'success',
+    data,
+  });
+};
+
 export const failResponse = (
   res: Response,
   validator?: Validator,

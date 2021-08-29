@@ -1,7 +1,15 @@
+import {
+  BROWSER_IFOOD,
+  IFOOD_WEB_PRODUCT,
+  IFOOD_DESKTOP_PLATAFORM,
+  IFOOD_MEDIUM,
+} from './../util/constants-util';
 import axios, { AxiosRequestConfig } from 'axios';
 import {
   getMerchantMenuRequest,
   getMerchantMenuResponse,
+  NewOrderRequest,
+  NewOrderResponse,
 } from './ifoodapi.interface';
 
 const {
@@ -13,9 +21,52 @@ const {
 export default class WsAPI {
   private static config: AxiosRequestConfig = {
     baseURL: WS_API_URL,
+    validateStatus: () => true,
   };
 
   private static api = axios.create(WsAPI.config);
+
+  static async makeOrder({
+    access_token,
+    address_id,
+    scheduled,
+    test,
+    restaurantOrder,
+    deliveryMethod,
+    paymentSources,
+  }: NewOrderRequest): Promise<NewOrderResponse> {
+    const { data, status } = await this.api.post(
+      '/ifood-ws-v3/v6/order/checkout',
+      {
+        browser: BROWSER_IFOOD,
+        product: IFOOD_WEB_PRODUCT,
+        plataform: IFOOD_DESKTOP_PLATAFORM,
+        scheduled,
+        test,
+        medium: IFOOD_MEDIUM,
+        address: {
+          addressId: address_id,
+        },
+        restaurantOrder,
+        deliveryMethod,
+        paymentSources,
+      },
+      {
+        headers: {
+          authorization: `Bearer ${access_token}`,
+          access_key: ACCESS_KEY,
+          secret_key: SECRET_KEY,
+        },
+      }
+    );
+
+    const { data: orderData } = data;
+
+    return {
+      ...this.handleResponse(status, data),
+      ...orderData,
+    };
+  }
 
   static async getMerchantMenu({
     access_token,
@@ -52,6 +103,16 @@ export default class WsAPI {
         message =
           'Comerciante não encontrado, valide o comerciante fornecido como argumento.';
         break;
+    }
+
+    switch (statusCode) {
+      case 401:
+        message = 'Problema com autenticação';
+        break;
+    }
+
+    if (data.message) {
+      message = data.message;
     }
 
     return {

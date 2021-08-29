@@ -1,4 +1,7 @@
-import { successResponse } from './../../middleware/handle-status-reponse';
+import {
+  successResponse,
+  failResponse,
+} from './../../middleware/handle-status-reponse';
 import { AuthRequest } from './../../middleware/auth-middleware';
 import { Response } from 'express';
 import { MarketplaceAPI } from '../../service';
@@ -8,7 +11,16 @@ export default async (req: AuthRequest, res: Response) => {
     access_token: req.session?.access_token || '',
   });
 
-  const { account } = accountInformation;
+  const { account, success, message } = accountInformation;
+
+  if (!success)
+    return failResponse(
+      res,
+      {
+        message: message || 'Ocorreu um problema ao obter dados da conta',
+      },
+      account
+    );
 
   return successResponse(
     res,
