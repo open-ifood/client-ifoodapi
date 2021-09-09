@@ -14,7 +14,7 @@ export default async (req: AuthRequest, res: Response) => {
   }
 
   const {
-    address_id,
+    addressId,
     deliveryMethod,
     paymentSources,
     restaurantOrder,
@@ -24,7 +24,7 @@ export default async (req: AuthRequest, res: Response) => {
 
   const { success, message, orderCheckout } = await WSApi.makeOrder({
     access_token,
-    address_id,
+    addressId,
     deliveryMethod,
     paymentSources,
     restaurantOrder,

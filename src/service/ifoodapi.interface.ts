@@ -72,7 +72,7 @@ interface PaymentSource {
 
 export interface NewOrderRequest extends DefaultAuthRequest {
   /** Unique identification for the addresses to delivery */
-  address_id: number;
+  addressId: number;
 
   /** Orders made */
   restaurantOrder: Array<RestaurantOrder>;

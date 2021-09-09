@@ -28,7 +28,7 @@ export default class WsAPI {
 
   static async makeOrder({
     access_token,
-    address_id,
+    addressId,
     scheduled,
     test,
     restaurantOrder,
@@ -45,7 +45,7 @@ export default class WsAPI {
         test,
         medium: IFOOD_MEDIUM,
         address: {
-          addressId: address_id,
+          addressId,
         },
         restaurantOrder,
         deliveryMethod,
