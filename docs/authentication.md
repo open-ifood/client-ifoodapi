@@ -10,7 +10,7 @@ Esse primeiro passo será responsável por enviar um token de verificação para
 
 ### Requisição
 
-```json
+```js
 {
   "endpoint": "/auth",
   "method": "POST",
@@ -22,7 +22,7 @@ Esse primeiro passo será responsável por enviar um token de verificação para
 
 ### Resposta válida
 
-```json
+```js
 {
   "status_code": 201,
   "body": {
@@ -34,7 +34,7 @@ Esse primeiro passo será responsável por enviar um token de verificação para
 
 ### Resposta inválida
 
-```json
+```js
 {
   "status_code": 404,
   "body": {
@@ -50,7 +50,7 @@ Caso o passo anterior tenha retornado o `status_code` 201, já está no momento 
 
 ### Requisição
 
-```json
+```js
 {
   "endpoint": "/confirm-auth",
   "method": "PATCH",
@@ -63,7 +63,7 @@ Caso o passo anterior tenha retornado o `status_code` 201, já está no momento 
 
 ### Resposta válida
 
-```json
+```js
 {
   "status_code": 201,
   "body": {
@@ -78,7 +78,7 @@ Caso o passo anterior tenha retornado o `status_code` 201, já está no momento 
 
 ### Resposta inválida
 
-```json
+```js
 {
   "status_code": 400,
   "body": {

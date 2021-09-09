@@ -1,14 +1,11 @@
-# Rotas privadas
-Essas são as rotas que poderão ser acessadas após a [Autenticação](./authentication.md).
-
-## Obter menu de um comerciante
+# Obter menu de um comerciante
 Esse endpoint responderá com as categorias, produtos, opções disponiveis para um cliente fazer compra em determinado comerciante.
 
 Exemplo: `ID_COMERCIANTE: 95c57181-290d-4bd0-a88f-e4fedaeec045`
 
-### Requisição
+## Requisição
 
-```json
+```js
 {
   "endpoint": "/merchant/<ID_COMERCIANTE>/menu",
   "method": "GET",
@@ -18,9 +15,9 @@ Exemplo: `ID_COMERCIANTE: 95c57181-290d-4bd0-a88f-e4fedaeec045`
 }
 ```
 
-### Resposta válida
+## Resposta válida
 
-```json
+```js
 {
   "status_code": 200,
   "body": {
@@ -144,59 +141,14 @@ Exemplo: `ID_COMERCIANTE: 95c57181-290d-4bd0-a88f-e4fedaeec045`
 }
 ```
 
-### Resposta inválida
+## Resposta inválida
 
-```json
+```js
 {
   "status_code": 500,
   "body": {
     "status": "fail",
     "message": "Comerciante não encontrado, valide o comerciante fornecido como argumento."
-  }
-}
-```
-
-## Obter informações da conta
-Esse endpoint fornecerá informações da conta autenticada no IFood.
-
-### Requisição
-
-```json
-{
-  "endpoint": "/me",
-  "method": "GET",
-  "header": {
-    "authorization": "<your_token_authentication>"
-  }
-}
-```
-
-### Resposta válida
-
-```json
-{
-  "status": "success",
-  "message": "Informações do perfil obtida com sucesso",
-  "data": {
-    "id": "918227e9-9f89-4c5a-a156-a83371e13fd1",
-    "external_id": 188345440,
-    "name": "Carlos Alberto de Nobrega",
-    "tax_payer_identification_number": null,
-    "phone": {
-      "country_code": 55,
-      "area_code": 16,
-      "number": "9923369504",
-      "full_number": "16993798356"
-    },
-    "email": "LEOELIAS021@GMAIL.COM",
-    "language": "pt-br",
-    "registration_date": "2020-01-05T22:32:18.640Z",
-    "tenant_id": "IFO",
-    "active": true,
-    "test_scope": null,
-    "blocked_to_create_account": false,
-    "user_type": "PLATFORM",
-    "not_publish_when_create": false
   }
 }
 ```
