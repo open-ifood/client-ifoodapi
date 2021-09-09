@@ -22,6 +22,41 @@ interface SendTokenEmailRequest {
   email: string;
 }
 
+interface GetMerchantPaymentMethodsRequest {
+  /** Filtered tags for serach by payment methods */
+  tags?: string;
+
+  merchantID: string;
+}
+
+interface PaymentMethodType {
+  name: 'OFFLINE' | 'ONLINE' | string;
+  description: string;
+}
+
+interface PaymentMethodMethod {
+  name: string;
+  description: string;
+}
+
+interface PaymentMethod {
+  /** uuid for payment method. */
+  id: string;
+
+  /** Friendly name */
+  name: string;
+
+  type: PaymentMethodType;
+
+  method: PaymentMethodMethod;
+
+  liability?: 'IFOOD' | string;
+}
+
+interface GetMerchantPaymentMethodsResponse extends DefaultResponse {
+  paymentMethods?: Array<PaymentMethod>;
+}
+
 interface ConfirmTokenEmailRequest {
   key: string;
   auth_code: number;
@@ -213,6 +248,29 @@ export default class MarketplaceAPI {
       message: success
         ? 'Operação realizada com sucesso'
         : message || 'Ocorreu um problema',
+    };
+  }
+
+  static async getMerchantPaymentMethods({
+    tags,
+    merchantID,
+  }: GetMerchantPaymentMethodsRequest): Promise<GetMerchantPaymentMethodsResponse> {
+    const params = new URLSearchParams();
+
+    if (tags) {
+      params.append('tags', tags);
+    }
+
+    const { data, status } = await this.api.get(
+      `/v1/merchants/${merchantID}/payment-methods`,
+      {
+        params,
+      }
+    );
+
+    return {
+      ...this.handleResponse(status, data),
+      paymentMethods: data,
     };
   }
 

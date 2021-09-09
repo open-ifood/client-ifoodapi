@@ -10,6 +10,7 @@ import {
   geocodeAddressController,
   getAddressesController,
   addAddressController,
+  paymentMethodsController,
 } from './controller';
 import authMiddleware from './middleware/auth-middleware';
 
@@ -17,6 +18,7 @@ const routes = Router();
 
 routes.get('/health', healthController);
 routes.get('/address/geocode', geocodeAddressController);
+routes.get('/merchant/:id?/payment-method', paymentMethodsController);
 routes.post('/auth', authController);
 routes.patch('/confirm-auth', confirmAuthController);
 routes.use(authMiddleware);

@@ -8,3 +8,4 @@ export { default as newOrderController } from './order/new-order-controller';
 export { default as geocodeAddressController } from './account/geocode-address';
 export { default as getAddressesController } from './account/get-addresses';
 export { default as addAddressController } from './account/add-address';
+export { default as paymentMethodsController } from './merchant/payment-method-controller';
