@@ -2,15 +2,11 @@
 
 Uma **Client API** para o IFood que permite **gerenciar multiplas** sessões no IFood Marketplace API de forma simples, concedendo a possibilidade de obter informações de conta, **enviar pedidos**, ver pedidos já feitos.
 
+**Em um futuro, posso pensar em separar em SDK, para facilitar o uso.**
+
 ## Acesso rápido
 
 Temos uma instância da aplicação rodando em um servidor. [Clique aqui]() e você poderá testar. =)
-
-## Rodando o ambiente localmente
-
-Antes de qualquer passo... Devemos configurar o ambiente de desenvolvimento para o projeto, configurando o editor de texto ou IDE, requisitos mínimos para o projeto... etc.
-
-A API possui uma imagem docker pré-configurada, esse é um guia para você abrir a API localmente.
 
 ## Guias
 
@@ -19,6 +15,7 @@ Essa sessão contém diversos guias para a utilização da API.
 ### Básicos
 
 - [Fazendo autenticação na API](./docs/authentication.md)
+- [Endpoints suportados](./docs/routes.md)
 
 ### Avançados
 

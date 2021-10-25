@@ -1,5 +1,5 @@
 import { Response } from 'express';
-import { Validator } from '../validator/first-auth-validator';
+import { Validator } from '../validator/authentication/first-auth-validator';
 
 export const successResponse = (
   res: Response,
@@ -9,6 +9,13 @@ export const successResponse = (
   return res.status(validator?.code || 200).json({
     status: 'success',
     message: validator?.message,
+    data,
+  });
+};
+
+export const successSimpleResponse = (res: Response, data?: object) => {
+  return res.status(200).json({
+    status: 'success',
     data,
   });
 };

@@ -5,8 +5,8 @@ Esse é um guia indicando o padrão utilizado para retornar uma situação de su
 Toda resposta retornará um [status code](https://developer.mozilla.org/pt-BR/docs/Web/HTTP/Status) que faz sentido com o resultado de uma requisição.
 
 ## Template de resposta à uma requisição
-```json
-{ 
+```js
+{
     "status_code": 200, // "Número inteiro, refere-se ao código de estado de uma resposta no HTTP"
     "body": {  //"Dados retornados no corpo da resposta à uma requisição"
         "status": "success | fail",
@@ -17,7 +17,7 @@ Toda resposta retornará um [status code](https://developer.mozilla.org/pt-BR/do
 ```
 
 ## Situação de sucesso
-```json
+```js
 {
     "status_code": 201,
     "body": {
@@ -31,7 +31,7 @@ Toda resposta retornará um [status code](https://developer.mozilla.org/pt-BR/do
 ```
 
 ## Situação de erro
-```json
+```js
 {
     "status_code": 400,
     "body": {

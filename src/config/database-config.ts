@@ -8,7 +8,6 @@ const {
   IFOODAPI_DATABASE_CLUSTER: CLUSTER,
 } = process.env;
 
-
 const databaseEnvs = [USER, PASS, DATABASE, CLUSTER];
 
 (async () => {
@@ -25,9 +24,16 @@ const databaseEnvs = [USER, PASS, DATABASE, CLUSTER];
         {
           useUnifiedTopology: true,
           useNewUrlParser: true,
+          useCreateIndex: true,
         }
       )
-      .then(() => log.info(`Database connected with success`))
-      .catch(e => log.error(e, 'Database not connected...'));
+      .then(() =>
+        log.info(
+          `Database ${USER}:${CLUSTER}:${DATABASE} connected with success`
+        )
+      )
+      .catch(e =>
+        log.error(e, `Database not connected... ${USER}:${CLUSTER}:${DATABASE}`)
+      );
   }
 })();
