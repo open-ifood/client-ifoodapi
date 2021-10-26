@@ -4,12 +4,10 @@ import './config';
 import './job';
 import routes from './routes';
 
-const { IFOODAPI_PORT: PORT } = process.env;
+const { PORT = 7000 } = process.env;
 const app = express();
 
 app.use(express.json());
 app.use(routes);
 
-app.listen(PORT || 7000, () =>
-  log.info(`Server opened on http://localhost:${PORT || 7000}`)
-);
+app.listen(PORT, () => log.info(`Server opened on http://localhost:${PORT}`));
