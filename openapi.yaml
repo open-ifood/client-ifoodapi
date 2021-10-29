@@ -1,0 +1,127 @@
+openapi: 3.0.3
+info:
+  title: ifood-client
+  version: 1.0.0
+  description: >-
+    A middleware api mapping the final-users IFood API, providing a simple
+    authentication control and full documented endpoints.
+  contact:
+    name: Leonardo Elias de Oliveira
+    url: https://develeo.me
+    email: leoelias02@hotmail.com
+  license:
+    name: MIT
+    url: >-
+      https://raw.githubusercontent.com/leoelias023/client-ifoodapi/master/LICENSE
+servers: []
+paths:
+  /address/geocode:
+    get:
+      description: >-
+        Geocode an line address _e. g. Avenida Romeu e Julieta, 13. São Paulo -
+        SP_
+      requestBody:
+        description: Line address to geocodification
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GeocodeRequest'
+      responses:
+        '200':
+          description: Some geocoded addresses or an empty block
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeocodeSuccessResponse'
+components:
+  schemas:
+    Coordinate:
+      type: object
+      properties:
+        latitude:
+          type: number
+        longitude:
+          type: number
+    CoordinateQuality:
+      type: object
+      properties:
+        latitude:
+          type: number
+        longitude:
+          type: number
+    AddressQuality:
+      type: object
+      properties:
+        city:
+          type: number
+        state:
+          type: number
+        country:
+          type: number
+        streetName:
+          type: number
+        streetNumber:
+          type: number
+        neighborhood:
+          type: number
+        postalCode:
+          type: number
+        coordinates:
+          $ref: '#/components/schemas/CoordinateQuality'
+    Address:
+      type: object
+      properties:
+        city:
+          type: string
+        state:
+          type: string
+        country:
+          type: string
+        streetName:
+          type: string
+        neighborhood:
+          type: string
+        coordinates:
+          $ref: '#/components/schemas/Coordinate'
+        postalCode:
+          type: string
+        quality:
+          $ref: '#/components/schemas/AddressQuality'
+        provider:
+          type: string
+    GeocodeRequest:
+      type: object
+      properties:
+        address_line:
+          type: string
+    GeocodeSuccessResponse:
+      type: object
+      properties:
+        status:
+          type: string
+        data:
+          type: object
+          properties:
+            message:
+              type: string
+            rules:
+              type: array
+              items:
+                type: object
+                properties:
+                  key:
+                    type: string
+                  localizedLabel:
+                    type: string
+                  required:
+                    type: boolean
+            addresses:
+              type: array
+              items:
+                $ref: '#/components/schemas/Address'
+security: []
+tags: []
+externalDocs:
+  description: Detailed documents **(DEPRECATED)**
+  url: https://github.com/leoelias023/client-ifoodapi/tree/master/docs
