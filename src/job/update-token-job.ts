@@ -1,6 +1,6 @@
 import { Session, SessionModel } from '../model/session';
-import { MarketplaceAPI } from '../service';
 import log from '../config/log-config';
+import * as IFoodSDK from '@open-ifood/sdk';
 
 export default async function updateTokenJob() {
   const updateToken = async (session: SessionModel) => {
@@ -12,7 +12,7 @@ export default async function updateTokenJob() {
       success,
       access_token,
       refresh_token: new_refresh_token,
-    } = await MarketplaceAPI.refreshToken({
+    } = await IFoodSDK.refreshToken({
       refresh_token: refresh_token,
     });
 

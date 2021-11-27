@@ -4,10 +4,10 @@ import {
 } from './../../middleware/handle-status-reponse';
 import { AuthRequest } from './../../middleware/auth-middleware';
 import { Response } from 'express';
-import { MarketplaceAPI } from '../../service';
+import * as IFoodSDK from '@open-ifood/sdk';
 
 export default async (req: AuthRequest, res: Response) => {
-  const accountInformation = await MarketplaceAPI.getCustomerInformation({
+  const accountInformation = await IFoodSDK.getCustomerInformation({
     access_token: req.session?.access_token || '',
   });
 

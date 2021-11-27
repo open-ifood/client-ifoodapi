@@ -1,7 +1,7 @@
 import { successSimpleResponse } from './../../middleware/handle-status-reponse';
 import { Response } from 'express';
 import { failResponse } from '../../middleware/handle-status-reponse';
-import { WSApi } from '../../service';
+import * as IFoodSDK from '@open-ifood/sdk';
 import { AuthRequest } from './../../middleware/auth-middleware';
 
 export default async (req: AuthRequest, res: Response) => {
@@ -22,7 +22,7 @@ export default async (req: AuthRequest, res: Response) => {
     test,
   } = req.body;
 
-  const { success, message, orderCheckout } = await WSApi.makeOrder({
+  const { success, message, orderCheckout } = await IFoodSDK.order({
     access_token,
     addressId,
     deliveryMethod,

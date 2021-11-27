@@ -1,15 +1,13 @@
 {
-  "name": "client-ifoodapi",
+  "name": "open-ifood",
   "version": "1.0.0",
   "description": "Uma **Client API** para o IFood que permite **gerenciar multiplas** sessões no IFood Marketplace API de forma simples, concedendo a possibilidade de obter informações de conta, **enviar pedidos**, ver pedidos já feitos.",
   "main": "./dist/index.js",
+  "private": true,
   "directories": {
     "doc": "docs"
   },
   "scripts": {
-    "build": "npx tsc",
-    "start": "NODE_ENV=production && npm run build && node ./dist/server.js",
-    "dev": "NODE_ENV=dev && ts-node-dev --respawn ./src/server.ts",
     "prepare": "husky install"
   },
   "repository": {
@@ -43,6 +41,7 @@
     "node": ">= v14.6.0"
   },
   "dependencies": {
+    "@open-ifood/sdk": "1.0.0",
     "@types/uuid": "^8.3.0",
     "axios": "^0.21.1",
     "dotenv": "^8.2.0",
@@ -52,5 +51,9 @@
     "node-cron": "^3.0.0",
     "pino": "^6.11.2",
     "uuid": "^8.3.2"
-  }
+  },
+  "workspaces": [
+    "packages/**",
+    "src"
+  ]
 }

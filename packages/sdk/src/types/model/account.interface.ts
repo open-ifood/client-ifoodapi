@@ -1,4 +1,4 @@
-import Phone from './phone';
+import Phone from './phone.interface.';
 
 export default interface Account {
   active?: boolean;

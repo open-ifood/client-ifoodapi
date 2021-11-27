@@ -3,7 +3,7 @@ import {
   failResponse,
   successResponse,
 } from '../../middleware/handle-status-reponse';
-import { MarketplaceAPI } from '../../service';
+import * as IFoodSDK from '@open-ifood/sdk';
 import { Session } from '../../model/session';
 import { firstAuthValidator } from '../../validator';
 
@@ -22,7 +22,7 @@ export default async (req: Request, res: Response) => {
     success,
     message: ifoodResponseMessage,
     key,
-  } = await MarketplaceAPI.sendTokenEmail({ email });
+  } = await IFoodSDK.sendTokenEmail({ email });
 
   if (!success || !key)
     return failResponse(res, {

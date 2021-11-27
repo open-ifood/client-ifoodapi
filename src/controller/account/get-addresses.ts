@@ -1,7 +1,7 @@
 import { successSimpleResponse } from './../../middleware/handle-status-reponse';
 import { Response } from 'express';
 import { failResponse } from '../../middleware/handle-status-reponse';
-import { MarketplaceAPI } from '../../service';
+import * as IFoodSDK from '@open-ifood/sdk';
 import { AuthRequest } from './../../middleware/auth-middleware';
 
 export default async (req: AuthRequest, res: Response) => {
@@ -13,7 +13,7 @@ export default async (req: AuthRequest, res: Response) => {
     });
   }
 
-  const get_address_response = await MarketplaceAPI.getAddresses({
+  const get_address_response = await IFoodSDK.getAddresses({
     access_token,
   });
 

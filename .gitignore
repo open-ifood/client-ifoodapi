@@ -6,3 +6,6 @@ dist/
 
 # env secrets
 .env
+
+# File with yarn errors
+yarn-error.log

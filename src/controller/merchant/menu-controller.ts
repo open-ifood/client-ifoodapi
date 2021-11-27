@@ -3,7 +3,7 @@ import {
   failResponse,
   successResponse,
 } from '../../middleware/handle-status-reponse';
-import { WSApi } from '../../service';
+import * as IFoodSDK from '@open-ifood/sdk';
 import { merchantMenuValidator } from '../../validator';
 
 export default async (req: Request, res: Response) => {
@@ -19,7 +19,7 @@ export default async (req: Request, res: Response) => {
       message: messageValidator || 'Ocorrreu um problema',
     });
 
-  const { success, menu, message } = await WSApi.getMerchantMenu({
+  const { success, menu, message } = await IFoodSDK.getMerchantMenu({
     access_token,
     merchant_id,
   });

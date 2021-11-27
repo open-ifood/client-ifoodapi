@@ -1,10 +1,10 @@
+import * as IFoodSDK from '@open-ifood/sdk';
 import { Request, Response } from 'express';
 import {
   failResponse,
   successResponse,
 } from '../../middleware/handle-status-reponse';
 import { Session } from '../../model/session';
-import { MarketplaceAPI } from '../../service';
 import confirmAuthValidator from '../../validator/authentication/confirm-auth-validator';
 
 export default async (req: Request, res: Response) => {
@@ -27,7 +27,7 @@ export default async (req: Request, res: Response) => {
     access_token,
     message: confirmTokenEmailMessage,
     success: confirmTokenEmailSuccess,
-  } = await MarketplaceAPI.confirmTokenEmail({
+  } = await IFoodSDK.confirmTokenEmail({
     auth_code,
     key: session.key,
   });
@@ -46,7 +46,7 @@ export default async (req: Request, res: Response) => {
     account_id,
     success,
     message: authMessage,
-  } = await MarketplaceAPI.auth({
+  } = await IFoodSDK.auth({
     access_token,
     email,
   });

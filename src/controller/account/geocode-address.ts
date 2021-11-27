@@ -3,7 +3,7 @@ import {
   successSimpleResponse,
 } from './../../middleware/handle-status-reponse';
 import { Request, Response } from 'express';
-import { MarketplaceAPI } from '../../service';
+import * as IFoodSDK from '@open-ifood/sdk';
 
 export default async (req: Request, res: Response) => {
   const { body } = req;
@@ -17,7 +17,7 @@ export default async (req: Request, res: Response) => {
     });
   }
 
-  const geocode_response = await MarketplaceAPI.geocodeAddress({
+  const geocode_response = await IFoodSDK.geocodeAddress({
     address_line,
   });
 

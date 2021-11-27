@@ -1,0 +1,14 @@
+{
+  "name": "@open-ifood/sdk",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "scripts": {
+    "start": "yarn tsc && node dist/index.js",
+    "build": "yarn tsc",
+    "postinstall": "yarn tsc"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "tsc": "^2.0.3"
+  }
+}

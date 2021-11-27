@@ -3,7 +3,7 @@ import {
   successSimpleResponse,
 } from './../../middleware/handle-status-reponse';
 import { Request, Response } from 'express';
-import { MarketplaceAPI } from '../../service';
+import * as IFoodSDK from '@open-ifood/sdk';
 
 export default async (req: Request, res: Response) => {
   const { id, tags } = req.params;
@@ -18,7 +18,7 @@ export default async (req: Request, res: Response) => {
     paymentMethods,
     success,
     message,
-  } = await MarketplaceAPI.getMerchantPaymentMethods({
+  } = await IFoodSDK.getMerchantPaymentMethods({
     merchantID: id,
     tags,
   });
