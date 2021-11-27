@@ -3,28 +3,26 @@ import Account from '../model/account.interface';
 export interface GetMerchantPaymentMethodsRequest {
   /** Filtered tags for serach by payment methods */
   tags?: string;
-
+  /** Hashed ID of the merchant */
   merchantID: string;
 }
 
+/**
+ * Abstract response, used as base for all others.
+ */
 export interface DefaultResponse {
   success: boolean;
   message?: string;
 }
 
 export interface SendTokenEmailResponse extends DefaultResponse {
+  /** Session key opened, waiting for the confirmation of authentication process. */
   key: string;
 }
 
 export interface SendTokenEmailRequest {
+  /** Valid e-mail of a account registered in iFood. */
   email: string;
-}
-
-export interface GetMerchantPaymentMethodsRequest {
-  /** Filtered tags for serach by payment methods */
-  tags?: string;
-
-  merchantID: string;
 }
 
 export interface PaymentMethodType {
@@ -56,7 +54,9 @@ export interface GetMerchantPaymentMethodsResponse extends DefaultResponse {
 }
 
 export interface ConfirmTokenEmailRequest {
+  /** Session key of opened session in the previous step of authentication. */
   key: string;
+  /** Authentication code of six digits received in e-mail. */
   auth_code: number;
 }
 
@@ -65,7 +65,9 @@ export interface ConfirmTokenEmailResponse extends DefaultResponse {
 }
 
 export interface AuthRequest {
+  /** Access token received when the authentication confirmation step is concluded */
   access_token: string;
+  /** E-mail of registered account. */
   email: string;
 }
 
@@ -77,16 +79,19 @@ export interface AuthResponse extends DefaultResponse {
 }
 
 export interface RefreshTokenRequest {
+  /** Current refresh token received in last authentication or refresh step. */
   refresh_token: string;
 }
 
 export interface RefreshTokenResponse extends DefaultResponse {
+  /** New access token for the authenticated endpoints. */
   access_token: string;
+  /** New refresh token for the next refresh. */
   refresh_token: string;
 }
 
 export interface GeocodeAddressRequest {
-  /** Address written in one line, with all in that. */
+  /** Address written in one line, with all in that. (e.g. Tv. Jardim Vera Cruz, S/N - Iapi, Salvador - BA, 40323-195) */
   address_line: string;
 }
 
@@ -192,7 +197,11 @@ export interface AddAddressRequest extends DefaultAuthRequest {
 
 export interface AddAddressResponse extends DefaultResponse, Address {}
 
+/**
+ * Abstract input for authenticated endpoint.
+ */
 export interface DefaultAuthRequest {
+  /** Access token generated in authentication process (representation of a account) */
   access_token: string;
 }
 

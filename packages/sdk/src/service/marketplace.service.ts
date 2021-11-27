@@ -81,6 +81,12 @@ function queryAddressLine(address_line: string): GeocodeInput {
   };
 }
 
+/**
+ * Get the payment methods of a Merchant.
+ *
+ * @param param0 Merchant identification and options for filter.
+ * @returns Payment methods of the merchant specified in parameter.
+ */
 export async function getMerchantPaymentMethods({
   tags,
   merchantID,
@@ -104,6 +110,12 @@ export async function getMerchantPaymentMethods({
   };
 }
 
+/**
+ * Get account logged informations
+ *
+ * @param param0 Token information account.
+ * @returns
+ */
 export async function getCustomerInformation({
   access_token,
 }: DefaultAuthRequest): Promise<getCustomerInformationResponse> {
@@ -122,6 +134,9 @@ export async function getCustomerInformation({
   };
 }
 
+/**
+ * Send a new auth code to the e-mail for auth-2-factor authentication.
+ */
 export async function sendTokenEmail({
   email,
 }: SendTokenEmailRequest): Promise<SendTokenEmailResponse> {
@@ -140,6 +155,7 @@ export async function sendTokenEmail({
   };
 }
 
+/** Confirm the authentication step, sending the auth_code and session key. */
 export async function confirmTokenEmail({
   key,
   auth_code,
@@ -159,6 +175,7 @@ export async function confirmTokenEmail({
   };
 }
 
+/** Last step for the authentication in API, call this to confirm the authentication */
 export async function auth({
   access_token: token,
   email,
@@ -198,6 +215,7 @@ export async function refreshToken({
   };
 }
 
+/** Add a new delivery address to the authenticated account. */
 export async function addAddress({
   access_token,
   address,
@@ -220,6 +238,7 @@ export async function addAddress({
   };
 }
 
+/** Get registered address of a authenticated account */
 export async function getAddresses({
   access_token,
 }: DefaultAuthRequest): Promise<GetAddressesResponse> {
@@ -235,6 +254,7 @@ export async function getAddresses({
   };
 }
 
+/** Geocode a line address, getting the precise coordinates. */
 export async function geocodeAddress({
   address_line,
 }: GeocodeAddressRequest): Promise<GeocodeAddressResponse> {
