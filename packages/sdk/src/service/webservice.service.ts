@@ -24,6 +24,7 @@ const apiConfig: AxiosRequestConfig = {
 
 const api: AxiosInstance = axios.create(apiConfig);
 
+/** Make new order to a merchant */
 export async function order({
   access_token,
   addressId,
@@ -66,6 +67,7 @@ export async function order({
   };
 }
 
+/** Get the avaiable menu of a merchant, with products, categories... */
 export async function getMerchantMenu({
   access_token,
   merchant_id,
