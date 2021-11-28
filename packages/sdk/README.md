@@ -4,7 +4,7 @@ Unofficial SDK for iFood Client API
 
 ## Usage
 
-### Installation
+### 1. Installation
 
 Using NPM
 
@@ -17,6 +17,10 @@ or `Yarn Package Manager`
 ```
 yarn add @open-ifood/sdk
 ```
+
+### 2. Environment variables
+
+Some variables must be defined in the environment, you can see, what are [here](./.model.env)
 
 ### Import
 
