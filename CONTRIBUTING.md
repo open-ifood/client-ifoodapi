@@ -60,6 +60,8 @@ Para facilitar o desenvolvimento e manter o padrão de código proposto no proje
 
 ### Requerimentos
 
+- Yarn (yarn config set workspaces-experimental true)
+
 - [Node.JS >= v.14.6.0](https://nodejs.org/en/)
 
 ### Extensões do vscode

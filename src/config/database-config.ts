@@ -20,12 +20,7 @@ const databaseEnvs = [USER, PASS, DATABASE, CLUSTER];
   } else {
     mongoose
       .connect(
-        `mongodb+srv://${USER}:${PASS}@${CLUSTER}/${DATABASE}?retryWrites=true&w=majority`,
-        {
-          useUnifiedTopology: true,
-          useNewUrlParser: true,
-          useCreateIndex: true,
-        }
+        `mongodb+srv://${USER}:${PASS}@${CLUSTER}/${DATABASE}?retryWrites=true&w=majority`
       )
       .then(() =>
         log.info(

@@ -58,6 +58,7 @@ export interface ConfirmTokenEmailRequest {
   key: string;
   /** Authentication code of six digits received in e-mail. */
   auth_code: number;
+  email: string;
 }
 
 export interface ConfirmTokenEmailResponse extends DefaultResponse {

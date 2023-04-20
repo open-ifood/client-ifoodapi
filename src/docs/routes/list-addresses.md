@@ -6,7 +6,7 @@ Esse **endpoint** lista todos os endereços cadastrados em sua conta previamente
 
 ```js
 {
-  "endpoint": "/me/addresses",
+  "endpoint": "/me/addresses"
   "method": "GET",
   "header": {
     "authorization": "<your_token_authentication>"

@@ -1,0 +1,43 @@
+{
+  "deviceId": "e17a1a96-9fb6-44e2-bb3b-c25e892df15b",
+  "sessionId": "3a920b6b-9301-4811-84cc-3eebbed0eb9e",
+  "events": [
+    {
+      "eventId": "7981353b-5b3a-4c19-a7e2-74e5d46252d6",
+      "eventType": "view_auth_otp_code",
+      "eventTypeRevision": 4,
+      "dimensions": {
+        "authType": "e-mail",
+        "accessPoint": "viewAuthenticatePhone",
+        "authTypeValue": "LEOELIAS021@GMAIL.COM"
+      },
+      "localTimestamp": "2023-04-11T05:57:19.025Z",
+      "ntpLocalTimestamp": "2023-04-11T05:57:19.025Z"
+    },
+    {
+      "eventId": "c57eaf22-b2cb-4ebc-abfe-04f90502bc8b",
+      "eventType": "view_auth_otp_code",
+      "eventTypeRevision": 4,
+      "dimensions": {
+        "authType": "email",
+        "accessPoint": "viewAuthenticateEmail",
+        "authTypeValue": "LEOELIAS021@GMAIL.COM"
+      },
+      "localTimestamp": "2023-04-11T05:57:19.028Z",
+      "ntpLocalTimestamp": "2023-04-11T05:57:19.028Z"
+    },
+    {
+      "eventId": "146d846f-13ba-436d-af0a-14bedde77000",
+      "eventType": "attempt_authenticate",
+      "eventTypeRevision": 0,
+      "dimensions": {
+        "authenticationMethod": "google",
+        "result": "error : idpiframe_initialization_failed"
+      },
+      "localTimestamp": "2023-04-11T05:57:19.029Z",
+      "ntpLocalTimestamp": "2023-04-11T05:57:19.029Z"
+    }
+  ],
+  "sentAt": "2023-04-11T05:57:19.316Z",
+  "ntpsentAt": "2023-04-11T05:57:19.316Z"
+}
