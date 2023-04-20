@@ -1,4 +1,4 @@
 export interface FasterClientConfig {
-    url: string;
-    applicationKey: string;
+  url: string;
+  applicationKey: string;
 }
