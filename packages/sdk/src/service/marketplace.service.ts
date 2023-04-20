@@ -1,4 +1,4 @@
-import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
+import axios, { AxiosInstance, AxiosResponse } from 'axios';
 import { MessageConstants } from '../constants';
 import {
   AddAddressRequest,
@@ -20,21 +20,15 @@ import {
   SendTokenEmailRequest,
   SendTokenEmailResponse,
 } from '../types/service/marketplace.service.interface';
+import {
+  generatePreCheckEmailConfirmation,
+  generateAuthConfig,
+  headers,
+} from './auth.service';
 
-const {
-  IFOODAPI_MARKETPLACE_API: MARKETPLACE_API_URL,
-  MARKETPLACE_APPLICATION_KEY,
-} = process.env;
+const { MARKETPLACE_APPLICATION_KEY } = process.env;
 
-const apiConfig: AxiosRequestConfig = {
-  baseURL: MARKETPLACE_API_URL,
-  headers: {
-    'content-type': 'application/json;charset=UTF-8',
-  },
-  validateStatus: () => true,
-};
-
-const api: AxiosInstance = axios.create(apiConfig);
+const api: AxiosInstance = axios.create(generateAuthConfig());
 
 function mountAuthorization(access_token: string) {
   return `Bearer ${access_token}`;
@@ -141,11 +135,16 @@ export async function sendTokenEmail({
   email,
 }: SendTokenEmailRequest): Promise<SendTokenEmailResponse> {
   const { status, data }: AxiosResponse = await api.post(
-    '/v1/identity-providers/OTP/authorization-codes',
+    '/v2/identity-providers/OTP/authorization-codes',
     {
       tenant_id: 'IFO',
       email,
       type: 'EMAIL',
+    },
+    {
+      headers: {
+        'accept-language': 'pt-BR,pt;q=1',
+      },
     }
   );
 
@@ -159,14 +158,16 @@ export async function sendTokenEmail({
 export async function confirmTokenEmail({
   key,
   auth_code,
+  email,
 }: ConfirmTokenEmailRequest): Promise<ConfirmTokenEmailResponse> {
-  const params: URLSearchParams = new URLSearchParams({
-    key,
-    auth_code: auth_code.toString(),
-  });
+  generatePreCheckEmailConfirmation(email);
 
-  const { status, data } = await api.get(
-    `/v1/identity-providers/OTP/access-tokens?${params.toString()}`
+  const { status, data } = await api.post(
+    `/v2/identity-providers/OTP/access-tokens`,
+    {
+      key,
+      auth_code: auth_code?.toString(),
+    }
   );
 
   return {
@@ -181,10 +182,10 @@ export async function auth({
   email,
 }: AuthRequest): Promise<AuthResponse> {
   const { status, data } = await api.post(
-    '/v2/identity-providers/OTP/authentications',
+    '/v3/identity-providers/OTP/authentications',
     {
       tenant_id: 'IFO',
-      device_id: '4d3094c24a96dfe4ecd65b53b8950ceb',
+      device_id: headers.deviceId,
       token,
       email,
     }

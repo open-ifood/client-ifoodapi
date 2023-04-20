@@ -5,10 +5,13 @@
   "scripts": {
     "start": "yarn tsc && node dist/index.js",
     "build": "yarn tsc",
-    "postinstall": "yarn tsc"
+    "postinstall": "yarn tsc",
+    "test": "jest --config=jest.json"
   },
   "license": "MIT",
   "dependencies": {
-    "tsc": "^2.0.3"
+    "moment": "^2.29.4",
+    "tsc": "^2.0.3",
+    "uuid": "^9.0.0"
   }
 }

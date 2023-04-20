@@ -4,10 +4,6 @@ Uma **Client API** para o IFood que permite **gerenciar multiplas** sessões no 
 
 **Em um futuro, posso pensar em separar em SDK, para facilitar o uso.**
 
-## Acesso rápido
-
-Temos uma instância da aplicação rodando em um servidor. [Clique aqui]() e você poderá testar. =)
-
 ## Guias
 
 Essa sessão contém diversos guias para a utilização da API.

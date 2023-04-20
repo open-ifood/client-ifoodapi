@@ -118,6 +118,6 @@ function handleResponse(statusCode: number, data?: any) {
     success,
     message: success
       ? 'Operação realizada com sucesso'
-      : message || 'Ocorreu um problema',
+      : message || 'Ocorreu um problema 1',
   };
 }

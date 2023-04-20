@@ -1,0 +1,7 @@
+{
+  "transform": {
+    "^.+\\.ts?$": "ts-jest"
+  },
+  "setupFiles": ["dotenv/config"],
+  "testPathIgnorePatterns": ["<rootDir>/src/__test__/setup.test.ts", "/dist/"]
+}

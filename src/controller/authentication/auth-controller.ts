@@ -31,15 +31,16 @@ export default async (req: Request, res: Response) => {
         'Ocorre um problema durante a autenticação no IFood, valide seus dados',
     });
 
-  const session = new Session();
+  const session =
+    (await Session.findOne({ email: { $eq: email } })) || new Session();
+
   session.email = email;
   session.key = key;
+  session.access_token = undefined;
+  session.account_id = undefined;
+  session.refresh_token = undefined;
 
-  if (await Session.exists({ email: { $eq: email } })) {
-    session.updateOne();
-  } else {
-    session.save();
-  }
+  session.save();
 
   return successResponse(res, {
     message:

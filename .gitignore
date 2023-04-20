@@ -9,3 +9,5 @@ dist/
 
 # File with yarn errors
 yarn-error.log
+
+tests.txt

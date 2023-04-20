@@ -30,6 +30,7 @@ export default async (req: Request, res: Response) => {
   } = await IFoodSDK.confirmTokenEmail({
     auth_code,
     key: session.key,
+    email,
   });
 
   if (!confirmTokenEmailSuccess || !access_token)
